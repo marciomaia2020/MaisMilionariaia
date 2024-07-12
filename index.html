@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Números Mega-Sena</title>
+    <title>Gerador de Números Loteria Milionária</title>
     <link rel="stylesheet" href="/css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Gerador de Números Mega-Sena</h1>
+        <h1>Gerador de Números Loteria Milionária</h1>
         <small>
-            Sorteia 6, ganhe com 4 ou 5 números dentre os 60. Marque de 6 a 20 números.
+            Sorteia 6 números e 2 trevos, ganhe com 4, 5 ou 6 números dentre os 60 e 2 trevos dentre os 6.
         </small>
 
-        <p><small>Escolha pelo menos 3 números fixos</small></p>
+        <p><small>Escolha 3 números fixos e 1 trevo fixo</small></p>
         <div class="number-selection">
             <label for="fixed-number-1">Número Fixo 1:</label>
             <input type="number" id="fixed-number-1" min="1" max="60" onchange="validateDuplicateNumbers()">
             
-            <label for="fixed-number-2" style="display:none;">Número Fixo 2:</label>
-            <input type="number" id="fixed-number-2" min="1" max="60" style="display:none;" onchange="validateDuplicateNumbers()">
+            <label for="fixed-number-2">Número Fixo 2:</label>
+            <input type="number" id="fixed-number-2" min="1" max="60" onchange="validateDuplicateNumbers()">
             
-            <label for="fixed-number-3" style="display:none;">Número Fixo 3:</label>
-            <input type="number" id="fixed-number-3" min="1" max="60" style="display:none;" onchange="validateDuplicateNumbers()">
+            <label for="fixed-number-3">Número Fixo 3:</label>
+            <input type="number" id="fixed-number-3" min="1" max="60" onchange="validateDuplicateNumbers()">
+
+            <label for="fixed-trevo">Trevo Fixo:</label>
+            <input type="number" id="fixed-trevo" min="1" max="4" onchange="validateDuplicateNumbers()">
         </div>
         <button onclick="generateNumbers()">Gerar Números</button>
         <button onclick="saveGame()">Salvar Jogo</button>

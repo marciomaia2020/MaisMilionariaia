@@ -1,6 +1,4 @@
-
 let savedGames = [];
-let step = 1; // Controla o passo do preenchimento dos números fixos
 
 function validateDuplicateNumbers() {
     const fixedNumbers = [];
@@ -15,6 +13,14 @@ function validateDuplicateNumbers() {
             fixedNumbers.push(parseInt(fixedNumberInput.value));
         }
     }
+    const fixedTrevoInput = document.getElementById('fixed-trevo');
+    if (fixedTrevoInput && fixedTrevoInput.value !== '') {
+        if (fixedTrevoInput.value <= 1 || fixedTrevoInput.value >= 6) {
+            alert(`Trevo inválido: ${fixedTrevoInput.value}. Por favor, insira um número entre 1 e 6.`);
+            fixedTrevoInput.value = '';
+            return false;
+        }
+    }
     return true;
 }
 
@@ -26,25 +32,14 @@ function generateNumbers() {
     const fixed1 = parseInt(document.getElementById('fixed-number-1').value);
     const fixed2 = parseInt(document.getElementById('fixed-number-2').value);
     const fixed3 = parseInt(document.getElementById('fixed-number-3').value);
+    const fixedTrevo = parseInt(document.getElementById('fixed-trevo').value);
 
-    if (isNaN(fixed1) || (step >= 2 && isNaN(fixed2)) || (step >= 3 && isNaN(fixed3))) {
-        alert("Por favor, insira números fixos válidos.");
+    if (isNaN(fixed1) || isNaN(fixed2) || isNaN(fixed3) || isNaN(fixedTrevo)) {
+        alert("Por favor, insira números fixos e trevo válidos.");
         return;
     }
 
-    if (step === 1) {
-        document.getElementById('fixed-number-2').style.display = 'inline-block';
-        document.querySelector('label[for=fixed-number-2]').style.display = 'inline-block';
-        document.getElementById('fixed-number-2').focus();
-        step++;
-    } else if (step === 2) {
-        document.getElementById('fixed-number-3').style.display = 'inline-block';
-        document.querySelector('label[for=fixed-number-3]').style.display = 'inline-block';
-        document.getElementById('fixed-number-3').focus();
-        step++;
-    }
-
-    const fixedNumbers = [fixed1, fixed2, fixed3].filter(num => !isNaN(num));
+    const fixedNumbers = [fixed1, fixed2, fixed3];
     const allNumbers = Array.from({ length: 60 }, (_, i) => i + 1);
     const availableNumbers = allNumbers.filter(num => !fixedNumbers.includes(num));
     const randomNumbers = [];
@@ -55,8 +50,12 @@ function generateNumbers() {
         randomNumbers.push(number);
     }
 
+    const allTrevos = [1, 2, 3, 4];
+    const availableTrevos = allTrevos.filter(trevo => trevo !== fixedTrevo);
+    const randomTrevo = availableTrevos[Math.floor(Math.random() * availableTrevos.length)];
+
     const generatedNumbers = [...fixedNumbers, ...randomNumbers].sort((a, b) => a - b);
-    document.getElementById('generated-numbers').innerText = `Números Gerados: ${generatedNumbers.join(', ')}`;
+    document.getElementById('generated-numbers').innerText = `Números Gerados: ${generatedNumbers.join(', ')} + Trevos: ${fixedTrevo}, ${randomTrevo}`;
 }
 
 function saveGame() {
@@ -82,5 +81,5 @@ function exportToExcel() {
     const worksheet = XLSX.utils.aoa_to_sheet(savedGames.map(game => game.split(', ')));
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Jogos Salvos");
-    XLSX.writeFile(workbook, "jogos_megasena.xlsx");
+    XLSX.writeFile(workbook, "jogos_milionaria.xlsx");
 }
